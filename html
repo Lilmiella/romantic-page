@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You, My Heart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Josefin Sans', sans-serif;
+      background: linear-gradient(135deg, #fff0f6, #f8bbd0, #f48fb1);
+      color: #ad1457;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      z-index: 2;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-family: 'Comfortaa', cursive;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 0 auto 30px;
+      max-width: 300px;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ff4081;
+      margin: 0 auto 30px;
+      box-shadow: 0 0 15px rgba(255, 64, 129, 0.4);
+      opacity: 0;
+      transform: scale(0.8);
+      animation: popIn 1.5s ease-out forwards;
+    }
+
+    @keyframes popIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    button {
+      background: linear-gradient(45deg, #ff80ab, #ff4081);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(255, 64, 129, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      font-family: 'Comfortaa', cursive;
+      animation: fadeIn 3s ease forwards;
+    }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+      transform: translate(-50%, -50%) scale(0);
+      border-radius: 50%;
+      z-index: 0;
+      transition: transform 0.6s ease;
+    }
+
+    button span {
+      position: relative;
+      z-index: 2;
+    }
+
+    button:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .hidden-message {
+      margin-top: 25px;
+      font-size: 1rem;
+      color: #880e4f;
+      opacity: 0;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      transform: translateY(10px);
+      transition: all 0.6s ease;
+    }
+
+    .hidden-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hidden-message p {
+      line-height: 1.6;
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      font-size: 1.5rem;
+      color: #f06292;
+      animation: floatUp 10s infinite ease-in;
+      opacity: 0.7;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Touch Heart Effect */
+    .touch-heart {
+      position: absolute;
+      font-size: 2rem;
+      color: #ff4081;
+      opacity: 0.8;
+      animation: pop 1s ease-out forwards;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      p, .hidden-message {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Music -->
+  <audio autoplay loop id="bg-music">
+    <source src=" https://open.spotify.com/track/3be9ACTxtcL6Zm4vJRUiPG?si=gaG7dhgxRgy0dkopvEHxhg " type="audio/mp3">
+    
+  </audio>
+
+  <!-- Floating Hearts -->
+  <script>
+    const heartCount = 20;
+    const body = document.body;
+
+    for (let i = 0; i < heartCount; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 3 + 7) + "s";
+      heart.style.fontSize = (Math.random() * 1.5 + 0.8) + "rem";
+      body.appendChild(heart);
+    }
+
+    // Touch Heart Effect
+    document.addEventListener("click", function(e) {
+      const touchHeart = document.createElement("div");
+      touchHeart.className = "touch-heart";
+      touchHeart.textContent = "❤️";
+      touchHeart.style.left = e.pageX + "px";
+      touchHeart.style.top = e.pageY + "px";
+      document.body.appendChild(touchHeart);
+
+      touchHeart.addEventListener("animationend", () => {
+        touchHeart.remove();
+      });
+    });
+  </script>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>✨ There’s Something I’ve Been Meaning to Say…</h1>
+
+    <!-- Photo -->
+    <img src="https://i.supaimg.com/3e5beff8-7be0-47e6-86bc-b0c51bac67d2.jpg " alt="You" class="photo" />
+
+    <p>I’ve tried to find the perfect words to tell you how much you mean to me. But every time I think of you, my heart speaks louder than my mind ever could.</p>
+
+    <button onclick="revealMessage()">
+      <span>✨ Reveal My Heart</span>
+    </button>
+
+    <div class="hidden-message" id="hiddenMessage">
+      <p>"You are the calm in my chaos, the light in my darkest days, and the reason I smile without trying. I’m not just falling for you — I’ve already fallen, and I never want to get up."</p>
+    </div>
+  </div>
+
+  <script>
+    function revealMessage() {
+      const message = document.getElementById("hiddenMessage");
+      message.classList.add("show");
+    }
+  </script>
+
+</body>
+</html>
